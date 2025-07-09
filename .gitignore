@@ -1,0 +1,19 @@
+# Ignore build outputs
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.o
+*.obj
+*.exe
+*.dylib
+*.out
+
+# Editor-specific
+.idea/
+.vscode/
+
+# macOS-specific
+.DS_Store
+
