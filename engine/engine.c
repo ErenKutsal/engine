@@ -4,6 +4,7 @@
 
 #include "engine.h"
 #include "renderer.h"
+#include "input.h"
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
@@ -49,13 +50,10 @@ bool engine_init(const char* title, int width, int height)
 
 void engine_handle_input()
 {
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
+    input_update();
+    if (input_should_quit())
     {
-        if (event.type == SDL_QUIT)
-        {
-            is_running = false;
-        }
+        is_running = false;
     }
 }
 
