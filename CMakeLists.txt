@@ -16,6 +16,9 @@ set(SOURCES
         main.c
         engine/engine.c
         engine/renderer.c
+        engine/input.c
+        ecs/entity.c
+        ecs/component.c
 )
 
 add_executable(game ${SOURCES})
