@@ -35,12 +35,11 @@ EntityID entity_create()
   return (EntityID) {.index = UINT32_MAX, .generation = 0};
 }
 
-void entity_destroy(EntityID id)
+void entity_destroy(const EntityID id)
 {
   if (id.index >= MAX_ENTITIES) return;
 
   entities[id.index].alive = 0;
-  entities[id.index].generation++;
 }
 
 bool entity_is_alive(const EntityID id)
@@ -49,4 +48,9 @@ bool entity_is_alive(const EntityID id)
 
   EntitySlot* slot = &entities[id.index];
   return slot->alive && slot->generation == id.generation;
+}
+
+uint32_t entity_get_generation(int index)
+{
+  return entities[index].generation;
 }

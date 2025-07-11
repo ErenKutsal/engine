@@ -17,8 +17,13 @@ set(SOURCES
         engine/engine.c
         engine/renderer.c
         engine/input.c
-        ecs/entity.c
-        ecs/component.c
+        engine/ecs/entity.c
+        engine/ecs/component.c
+        engine/ecs/component_transform.c
+        engine/ecs/component_sprite.c
+        engine/ecs/system_movement.c
+        engine/ecs/system_render.c
+        engine/ecs/ecs_init.c
 )
 
 add_executable(game ${SOURCES})

@@ -5,6 +5,7 @@
 #include "engine.h"
 #include "renderer.h"
 #include "input.h"
+#include "ecs/ecs_init.h"
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
@@ -43,6 +44,8 @@ bool engine_init(const char* title, int width, int height)
         printf("Renderer creation error: %s\n", SDL_GetError());
         return false;
     }
+
+    ecs_init();
 
     last_frame_time = SDL_GetTicks();
     return true;

@@ -19,5 +19,6 @@ void entity_system_init();
 EntityID entity_create();
 void entity_destroy(EntityID id);
 bool entity_is_alive(EntityID id);
+uint32_t entity_get_generation(int index);
 
 #endif //ENTITY_H
