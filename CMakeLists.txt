@@ -13,7 +13,8 @@ if (NOT SDL2_IMAGE_INCLUDE_DIRS)
 endif()
 
 set(SOURCES
-        main.c
+        #main.c
+        game/game.c
         engine/engine.c
         engine/renderer.c
         engine/input.c
