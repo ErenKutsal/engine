@@ -5,8 +5,8 @@
 #ifndef COMPONENT_SPRITE_H
 #define COMPONENT_SPRITE_H
 
-#include "../renderer.h"
-#include "entity.h"
+#include "../../renderer.h"
+#include "../entity.h"
 
 #include "stdbool.h"
 

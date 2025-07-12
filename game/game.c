@@ -5,12 +5,15 @@
 #include "../engine/engine.h"
 #include "../engine/renderer.h"
 #include "../engine/ecs/entity.h"
-#include "../engine/ecs/component_transform.h"
-#include "../engine/ecs/component_sprite.h"
-#include "../engine/ecs/system_movement.h"
-#include "../engine/ecs/system_render.h"
+#include "../engine/ecs/components/component_transform.h"
+#include "../engine/ecs/components/component_sprite.h"
+#include "../engine/ecs/systems/system_movement.h"
+#include "../engine/ecs/systems/system_render.h"
 
 #include <stdio.h>
+
+#include "../engine/ecs/components/component_collider.h"
+#include "../engine/ecs/components/component_tag.h"
 
 int main(void)
 {
@@ -24,8 +27,18 @@ int main(void)
     }
 
     EntityID player = entity_create();
-    transform_set(player, 100, 100, 100, 100);
+    transform_set(player, 100, 100, 0, 0, 100);
+    collider_set(player, 0, 0, 64, 64, false);
+    input_enable(player);
+    tag_set(player, TAG_PLAYER);
     sprite_add_layer(player, tex, 0, 0, true);
+
+    EntityID enemy = entity_create();
+    transform_set(enemy, 500, 100, 0, 0, 100);
+    collider_set(enemy, 0, 0, 64, 64, false);
+    tag_set(enemy, TAG_ENEMY);
+    sprite_add_layer(enemy, tex, 0, 0, true);
+
 
     while (engine_running())
     {

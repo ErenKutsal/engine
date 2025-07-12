@@ -19,12 +19,22 @@ set(SOURCES
         engine/renderer.c
         engine/input.c
         engine/ecs/entity.c
-        engine/ecs/component.c
-        engine/ecs/component_transform.c
-        engine/ecs/component_sprite.c
-        engine/ecs/system_movement.c
-        engine/ecs/system_render.c
+        engine/ecs/components/component.c
+        engine/ecs/components/component_transform.c
+        engine/ecs/components/component_sprite.c
+        engine/ecs/systems/system_movement.c
+        engine/ecs/systems/system_render.c
         engine/ecs/ecs_init.c
+        engine/ecs/systems/system_collision.c
+        engine/ecs/systems/system_collision.h
+        engine/ecs/components/component_collider.c
+        engine/ecs/components/component_collider.h
+        engine/ecs/systems/system_input.c
+        engine/ecs/systems/system_input.h
+        engine/ecs/components/component_input.c
+        engine/ecs/components/component_input.h
+        engine/ecs/components/component_tag.c
+        engine/ecs/components/component_tag.h
 )
 
 add_executable(game ${SOURCES})

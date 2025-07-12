@@ -3,8 +3,11 @@
 //
 
 #include "ecs_init.h"
-#include "component_transform.h"
-#include "component_sprite.h"
+#include "components/component_transform.h"
+#include "components/component_sprite.h"
+#include "components/component_input.h"
+#include "components/component_collider.h"
+#include "components/component_tag.h"
 #include "entity.h"
 
 void ecs_init()
@@ -12,6 +15,9 @@ void ecs_init()
     entity_system_init();
     transform_init();
     sprite_init();
+    input_init();
+    collider_init();
+    tag_init();
 }
 void ecs_shutdown()
 {

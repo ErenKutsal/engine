@@ -15,11 +15,11 @@ void transform_init()
     memset(has_transform, 0, sizeof(has_transform));
 }
 
-void transform_set(EntityID id, float pos_x, float pos_y, float vel_x, float vel_y)
+void transform_set(EntityID id, float pos_x, float pos_y, float dx, float dy, float vel)
 {
     if (id.index >= MAX_ENTITIES) return;
 
-    transforms[id.index] = (Transform) {pos_x, pos_y, vel_x, vel_y};
+    transforms[id.index] = (Transform) {pos_x, pos_y, dx, dy, vel};
     has_transform[id.index] = true;
 }
 

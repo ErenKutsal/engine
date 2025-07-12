@@ -12,7 +12,6 @@ bool engine_init(const char* title, int width, int height);
 void engine_handle_input();
 bool engine_running();
 float engine_delta_time();
-
 void engine_begin_frame();
 void engine_end_frame();
 void engine_shutdown();

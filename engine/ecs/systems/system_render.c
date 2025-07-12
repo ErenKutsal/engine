@@ -2,10 +2,10 @@
 // Created by Ahmet Eren Kutsal on 12.07.2025.
 //
 
-#include "component_sprite.h"
-#include "component_transform.h"
-#include "entity.h"
-#include "../renderer.h"
+#include "../components/component_sprite.h"
+#include "../components/component_transform.h"
+#include "../entity.h"
+#include "../../renderer.h"
 
 void system_render_draw_all()
 {

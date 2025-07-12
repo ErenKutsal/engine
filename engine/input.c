@@ -8,6 +8,8 @@
 #include <SDL_scancode.h>
 #include <stdbool.h>
 
+#include "ecs/systems/system_input.h"
+
 static bool input_keys[SDL_NUM_SCANCODES];
 static bool quit_requested = false;
 
@@ -26,6 +28,8 @@ void input_update()
             input_keys[event.key.keysym.scancode] = SDL_KEYDOWN;
         }
     }
+    const Uint8* keyboard_state = SDL_GetKeyboardState(NULL);
+    system_input_update(keyboard_state);
 }
 
 bool input_is_down(SDL_Scancode sc)
