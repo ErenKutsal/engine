@@ -27,7 +27,7 @@ int main(void)
     }
 
     EntityID player = entity_create();
-    transform_set(player, 100, 100, 0, 0, 100);
+    transform_set(player, 100, 100, 0, 0, 10);
     collider_set(player, 0, 0, 64, 64, false);
     input_enable(player);
     tag_set(player, TAG_PLAYER);
@@ -54,7 +54,7 @@ int main(void)
         movement_update(engine_delta_time());
         system_render_draw_all();
 
-        printf("Delta: %f\n", engine_delta_time());
+        //printf("Delta: %f\n", engine_delta_time());
         SDL_Delay(16); // crude ~60fps cap (1000ms / 60 = ~16.6ms)
 
         engine_end_frame();

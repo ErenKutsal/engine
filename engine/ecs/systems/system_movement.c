@@ -4,7 +4,8 @@
 
 #include "system_movement.h"
 
-#include <secure/_string.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "system_collision.h"
 #include "../entity.h"
@@ -13,6 +14,7 @@
 #include "../components/component_tag.h"
 #include "../components/component_collider.h"
 
+/*
 void movement_update(const float delta_time)
 {
     for (int i = 0; i < MAX_ENTITIES; i++)
@@ -25,14 +27,15 @@ void movement_update(const float delta_time)
         t->pos_y += t->dy * delta_time;
     }
 }
+*/
 
-void movement_update2(const float delta_time)
+void movement_update(const float delta_time)
 {
     bool entity_intersects_x[MAX_ENTITIES];
     bool entity_intersects_y[MAX_ENTITIES];
     memset(entity_intersects_x, 0, sizeof(entity_intersects_x));
     memset(entity_intersects_y, 0, sizeof(entity_intersects_y));
-    for (int i = 0; i < MAX_ENTITIES - 1; i++)
+    for (int i = 0; i < MAX_ENTITIES; i++)
     {
         EntityID id1 = {i, entity_get_generation(i)};
         if (!entity_is_alive(id1)) continue;
@@ -52,8 +55,10 @@ void movement_update2(const float delta_time)
         AABB aabb1y = {t1->pos_x + c1->offset_x, t1->pos_y + c1->offset_y + t1->dy * delta_time, c1->width, c1->height};
         bool can_move_horizontally = true;
         bool can_move_vertically = true;
-        for (int j = i + 1; j < MAX_ENTITIES; j++)
+        for (int j = 0; j < MAX_ENTITIES; j++)
         {
+            if (j == i) continue;
+
             EntityID id2 = {j, entity_get_generation(j)};
             if (!entity_is_alive(id2)) continue;
 
@@ -66,24 +71,23 @@ void movement_update2(const float delta_time)
             AABB aabb2 = {t2->pos_x + c2->offset_x, t2->pos_y + c2->offset_y, c2->width, c2->height};
             if (aabb_intersect_rect(aabb1x, aabb2))
             {
+                printf("hit!");
                 can_move_horizontally = false;
                 entity_intersects_x[j] = true;
+                t1->dx = 0;
             }
             if (aabb_intersect_rect(aabb1y, aabb2))
             {
+                printf("hit!");
                 can_move_vertically = false;
                 entity_intersects_y[j] = true;
+                t1->dy = 0;
             }
         }
-        if (!can_move_horizontally) t1->dx = 0;
-        if (!can_move_vertically) t1->dy = 0;
-    }
-    for (int k = 0; k < MAX_ENTITIES; k++)
-    {
-        EntityID id = {k, entity_get_generation(k)};
-        Transform* t = transform_get(id);
-        if (entity_intersects_x[k]) t->dx = 0;
-        if (entity_intersects_y[k]) t->dy = 0;
+        //if (!can_move_horizontally) t1->dx = 0;
+        //if (!can_move_vertically) t1->dy = 0;
+        t1->pos_x += t1->dx;
+        t1->pos_y += t1->dy;
     }
 }
 

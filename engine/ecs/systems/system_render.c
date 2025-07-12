@@ -17,6 +17,8 @@ void system_render_draw_all()
         Transform* t = transform_get(id);
         int x = (int) t->pos_x ? : 0;
         int y = (int) t->pos_y ? : 0;
+        int dx = (int) t->dx ? : 0;
+        int dy = (int) t->dy ? : 0;
 
         Sprite* s = sprite_get(id);
         for (int j = 0; j < s->count; j++)
