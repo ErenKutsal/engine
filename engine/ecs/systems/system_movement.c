@@ -31,63 +31,71 @@ void movement_update(const float delta_time)
 
 void movement_update(const float delta_time)
 {
-    bool entity_intersects_x[MAX_ENTITIES];
-    bool entity_intersects_y[MAX_ENTITIES];
-    memset(entity_intersects_x, 0, sizeof(entity_intersects_x));
-    memset(entity_intersects_y, 0, sizeof(entity_intersects_y));
     for (int i = 0; i < MAX_ENTITIES; i++)
     {
-        EntityID id1 = {i, entity_get_generation(i)};
-        if (!entity_is_alive(id1)) continue;
-
-        Transform* t1 = transform_get(id1);
-        if (!t1) continue;
-
-        if (tag_has(id1, TAG_PLAYER))
+        EntityID id1 = (EntityID) {i, entity_get_generation(i)};
+        if (!transform_has(id1) || !entity_is_alive(id1) || !collider_has(id1))
         {
-            player_request_update(id1, input_get(id1));
+            continue;
         }
-
+        predict_update(id1);
+        Transform* t1 = transform_get(id1);
         Collider* c1 = collider_get(id1);
-        if (!c1 || c1->is_trigger) continue;
-
-        AABB aabb1x = {t1->pos_x + c1->offset_x + t1->dx * delta_time, t1->pos_y + c1->offset_y, c1->width, c1->height};
-        AABB aabb1y = {t1->pos_x + c1->offset_x, t1->pos_y + c1->offset_y + t1->dy * delta_time, c1->width, c1->height};
-        bool can_move_horizontally = true;
-        bool can_move_vertically = true;
+        AABB aabb1x = {t1->pos_x + c1->offset_x + t1->dx * delta_time,
+                       t1->pos_y + c1->offset_y,
+                       c1->width,
+                       c1->height};
+        AABB aabb1y = {t1->pos_x + c1->offset_x,
+                       t1->pos_y + c1->offset_y + t1->dy * delta_time,
+                       c1->width,
+                       c1->height};
         for (int j = 0; j < MAX_ENTITIES; j++)
         {
-            if (j == i) continue;
+            if (i == j) continue;
 
-            EntityID id2 = {j, entity_get_generation(j)};
-            if (!entity_is_alive(id2)) continue;
+            EntityID id2 = (EntityID) {j, entity_get_generation(j)};
+            if (!collider_has(id2) || !transform_has(id2) || !entity_is_alive(id2))
+            {
+                continue;
+            }
 
             Transform* t2 = transform_get(id2);
-            if (!t2) continue;
-
             Collider* c2 = collider_get(id2);
-            if (!c2 || c2->is_trigger) continue;
+            if (c2->is_trigger) continue;
 
-            AABB aabb2 = {t2->pos_x + c2->offset_x, t2->pos_y + c2->offset_y, c2->width, c2->height};
+            AABB aabb2 = {t2->pos_x + c2->offset_x,
+                          t2->pos_y + c2->offset_y,
+                          c2->width,
+                          c2->height};
             if (aabb_intersect_rect(aabb1x, aabb2))
             {
-                printf("hit!");
-                can_move_horizontally = false;
-                entity_intersects_x[j] = true;
+                //entity will collide if it moves horizontally
+                printf("hit!\n");
                 t1->dx = 0;
             }
             if (aabb_intersect_rect(aabb1y, aabb2))
             {
-                printf("hit!");
-                can_move_vertically = false;
-                entity_intersects_y[j] = true;
+                printf("hit!\n");
                 t1->dy = 0;
             }
         }
-        //if (!can_move_horizontally) t1->dx = 0;
-        //if (!can_move_vertically) t1->dy = 0;
-        t1->pos_x += t1->dx;
-        t1->pos_y += t1->dy;
+        //TODO normalize instead of just adding
+        t1->pos_x += t1->dx * delta_time;
+        t1->pos_y += t1->dy * delta_time;
+        //printf("%.2f %.2f\n", t1->pos_x, t1->pos_y);
+    }
+}
+
+void predict_update(EntityID id)
+{
+    if (tag_has(id, TAG_NONE)) return;
+
+    if (tag_has(id, TAG_PLAYER))
+    {
+        player_request_update(id, input_get(id));
+    } else if (tag_has(id, TAG_ENEMY))
+    {
+        //TODO implement ai
     }
 }
 

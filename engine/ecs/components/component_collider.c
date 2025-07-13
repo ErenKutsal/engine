@@ -46,3 +46,8 @@ void collider_clear(EntityID id)
     memset(&colliders[id.index], 0, sizeof(Collider));
     has_collider[id.index] = false;
 }
+
+bool collider_has(EntityID id)
+{
+    return id.index < MAX_ENTITIES && has_collider[id.index];
+}

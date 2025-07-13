@@ -21,5 +21,6 @@ int collider_set(EntityID id, float offset_x, float offset_y, float width, float
 void collider_set_trigger(EntityID id, bool is_trigger);
 Collider* collider_get(EntityID id);
 void collider_clear(EntityID id);
+bool collider_has(EntityID id);
 
 #endif //COMPONENT_COLLIDER_H

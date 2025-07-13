@@ -15,7 +15,6 @@ float engine_delta_time();
 void engine_begin_frame();
 void engine_end_frame();
 void engine_shutdown();
-
-SDL_Renderer* engine_get_renderer();
+SDL_Renderer* engine_renderer();
 
 #endif //ENGINE_H

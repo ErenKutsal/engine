@@ -10,5 +10,6 @@
 
 void movement_update(float delta_time);
 void player_request_update(EntityID player, Input* input);
+void predict_update(EntityID id);
 
 #endif //SYSTEM_MOVEMENT_H

@@ -25,9 +25,10 @@ int main(void)
         engine_shutdown();
         return 1;
     }
-
+    tex->width = 64;
+    tex->height = 64;
     EntityID player = entity_create();
-    transform_set(player, 100, 100, 0, 0, 10);
+    transform_set(player, 100, 100, 0, 0, 100.0f);
     collider_set(player, 0, 0, 64, 64, false);
     input_enable(player);
     tag_set(player, TAG_PLAYER);
@@ -38,7 +39,6 @@ int main(void)
     collider_set(enemy, 0, 0, 64, 64, false);
     tag_set(enemy, TAG_ENEMY);
     sprite_add_layer(enemy, tex, 0, 0, true);
-
 
     while (engine_running())
     {

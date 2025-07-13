@@ -37,3 +37,8 @@ void transform_clear(EntityID id)
     memset(&transforms[id.index], 0, sizeof(Transform));
     has_transform[id.index] = false;
 }
+
+bool transform_has(EntityID id)
+{
+    return id.index < MAX_ENTITIES && has_transform[id.index];
+}
