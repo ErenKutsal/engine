@@ -12,8 +12,10 @@
 
 #include <stdio.h>
 
+#include "../include/key_binding.h"
 #include "../include/ecs/components/component_collider.h"
 #include "../include/ecs/components/component_tag.h"
+#include "player.h"
 
 #define FRAME_TARGET_TIME 16
 
@@ -41,6 +43,8 @@ int main(void)
     collider_set(enemy, 0, 0, 64, 64, false);
     tag_set(enemy, TAG_ENEMY);
     sprite_add_layer(enemy, tex, 0, 0, true);
+
+    bind_key(SDL_SCANCODE_SPACE, player_attack, "attack", player);
 
     Uint32 frame_start;
     int frame_time;

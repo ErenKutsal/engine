@@ -5,6 +5,7 @@
 #include "../../../include/ecs/systems/system_input.h"
 #include "../../../include/ecs/entity.h"
 #include "../../../include/ecs/components/component_input.h"
+#include "../../../include/key_binding.h"
 
 void system_input_update(const Uint8* keyboard_state)
 {
@@ -21,4 +22,6 @@ void system_input_update(const Uint8* keyboard_state)
         input.shoot      = keyboard_state[SDL_SCANCODE_SPACE];
         input_set(id, input);
     }
+
+    binding_update(keyboard_state);
 }

@@ -4,7 +4,10 @@
 
 #ifndef SYSTEM_COLLISION_H
 #define SYSTEM_COLLISION_H
+
 #include <stdbool.h>
+#include "../entity.h"
+#include "../components/component_tag.h"
 
 typedef struct
 {
@@ -12,5 +15,5 @@ typedef struct
 } AABB;
 
 bool aabb_intersect_rect(AABB a, AABB b);
-
+void collide_entities(EntityID id1, EntityID id2);
 #endif //SYSTEM_COLLISION_H

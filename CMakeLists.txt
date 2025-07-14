@@ -25,17 +25,14 @@ set(SOURCES
         src/ecs/systems/system_render.c
         src/ecs/ecs_init.c
         src/ecs/systems/system_collision.c
-        #include/ecs/systems/system_collision.h
         src/ecs/components/component_collider.c
-        #include/ecs/components/component_collider.h
         src/ecs/systems/system_input.c
-        #include/ecs/systems/system_input.h
         src/ecs/components/component_input.c
-        #include/ecs/components/component_input.h
         src/ecs/components/component_tag.c
-        #include/ecs/components/component_tag.h
         src/my_math.c
-        #include/my_math.h
+        src/key_binding.c
+        include/key_binding.h
+        game/player.c
 )
 
 add_executable(game ${SOURCES})

@@ -56,13 +56,15 @@ void movement_update(const float delta_time)
             if (aabb_intersect_rect(aabb1x, aabb2))
             {
                 //entity will collide if it moves horizontally
-                printf("hit!\n");
-                t1->dx = 0;
+                collide_entities(id1, id2);
+                //printf("hit!\n");
+                //t1->dx = 0;
             }
             if (aabb_intersect_rect(aabb1y, aabb2))
             {
-                printf("hit!\n");
-                t1->dy = 0;
+                collide_entities(id1, id2);
+                //printf("hit!\n");
+                //t1->dy = 0;
             }
         }
         Vec2f velocity = vec2f(t1->dx, t1->dy);
