@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.31)
-project(engine C)
+project(src C)
 
 set(CMAKE_C_STANDARD 11)
 
@@ -14,27 +14,27 @@ endif()
 
 set(SOURCES
         game/game.c
-        engine/engine.c
-        engine/renderer.c
-        engine/input.c
-        engine/ecs/entity.c
-        engine/ecs/components/component.c
-        engine/ecs/components/component_transform.c
-        engine/ecs/components/component_sprite.c
-        engine/ecs/systems/system_movement.c
-        engine/ecs/systems/system_render.c
-        engine/ecs/ecs_init.c
-        engine/ecs/systems/system_collision.c
+        src/engine.c
+        src/renderer.c
+        src/input.c
+        src/ecs/entity.c
+        src/ecs/components/component.c
+        src/ecs/components/component_transform.c
+        src/ecs/components/component_sprite.c
+        src/ecs/systems/system_movement.c
+        src/ecs/systems/system_render.c
+        src/ecs/ecs_init.c
+        src/ecs/systems/system_collision.c
         #include/ecs/systems/system_collision.h
-        engine/ecs/components/component_collider.c
+        src/ecs/components/component_collider.c
         #include/ecs/components/component_collider.h
-        engine/ecs/systems/system_input.c
+        src/ecs/systems/system_input.c
         #include/ecs/systems/system_input.h
-        engine/ecs/components/component_input.c
+        src/ecs/components/component_input.c
         #include/ecs/components/component_input.h
-        engine/ecs/components/component_tag.c
+        src/ecs/components/component_tag.c
         #include/ecs/components/component_tag.h
-        engine/my_math.c
+        src/my_math.c
         #include/my_math.h
 )
 
