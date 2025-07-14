@@ -2,13 +2,13 @@
 // Created by Ahmet Eren Kutsal on 9.07.2025.
 //
 
-#include "input.h"
+#include "../include/input.h"
 
 #include <SDL_events.h>
 #include <SDL_scancode.h>
 #include <stdbool.h>
 
-#include "ecs/systems/system_input.h"
+#include "../include/ecs/systems/system_input.h"
 
 static bool input_keys[SDL_NUM_SCANCODES];
 static bool quit_requested = false;

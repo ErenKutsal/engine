@@ -15,7 +15,7 @@ typedef enum
     TAG_PLAYER = 1 << 0,
     TAG_ENEMY = 1 << 1,
     TAG_STATIC = 1 << 2,
-    TAG_TRIGGER = 1 << 3
+    TAG_PROJECTILE = 1 << 3
 } TagFlags;
 
 typedef struct

@@ -2,7 +2,7 @@
 // Created by Ahmet Eren Kutsal on 12.07.2025.
 //
 
-#include "component_collider.h"
+#include "../../../include/ecs/components/component_collider.h"
 
 #include <string.h>
 #include <stdbool.h>

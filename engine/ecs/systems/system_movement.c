@@ -2,32 +2,18 @@
 // Created by Ahmet Eren Kutsal on 12.07.2025.
 //
 
-#include "system_movement.h"
+#include "../../../include/ecs/systems/system_movement.h"
 
 #include <stdio.h>
 #include <string.h>
 
-#include "system_collision.h"
-#include "../entity.h"
-#include "../components/component_transform.h"
-#include "../components/component_input.h"
-#include "../components/component_tag.h"
-#include "../components/component_collider.h"
-
-/*
-void movement_update(const float delta_time)
-{
-    for (int i = 0; i < MAX_ENTITIES; i++)
-    {
-        EntityID id = {i, entity_get_generation(i)};
-        Transform* t = transform_get(id);
-        if (!t) continue;
-
-        t->pos_x += t->dx * delta_time;
-        t->pos_y += t->dy * delta_time;
-    }
-}
-*/
+#include "../../../include/ecs/systems/system_collision.h"
+#include "../../../include/ecs/entity.h"
+#include "../../../include/ecs/components/component_transform.h"
+#include "../../../include/ecs/components/component_input.h"
+#include "../../../include/ecs/components/component_tag.h"
+#include "../../../include/ecs/components/component_collider.h"
+#include "../../../include/my_math.h"
 
 void movement_update(const float delta_time)
 {
@@ -79,10 +65,11 @@ void movement_update(const float delta_time)
                 t1->dy = 0;
             }
         }
-        //TODO normalize instead of just adding
-        t1->pos_x += t1->dx * delta_time;
-        t1->pos_y += t1->dy * delta_time;
-        //printf("%.2f %.2f\n", t1->pos_x, t1->pos_y);
+        Vec2f velocity = vec2f(t1->dx, t1->dy);
+        Vec2f normalized_vel = vec2f_mul(vec2f_normalize(velocity), vec2f_length(t1->vel) * delta_time);
+        if (vec2f_near_zero(normalized_vel)) normalized_vel = VEC2F_ZERO;
+        t1->pos_x += normalized_vel.x;
+        t1->pos_y += normalized_vel.y;
     }
 }
 
@@ -96,6 +83,9 @@ void predict_update(EntityID id)
     } else if (tag_has(id, TAG_ENEMY))
     {
         //TODO implement ai
+    } else if (tag_has(id, TAG_PROJECTILE))
+    {
+        projectile_request_update(id);
     }
 }
 
@@ -104,10 +94,18 @@ void player_request_update(EntityID player, Input* input)
     Transform* t = transform_get(player);
     float dx = 0;
     float dy = 0;
-    if (input->move_right) dx += t->vel;
-    if (input->move_left) dx -= t-> vel;
-    if (input->move_up) dy -= t->vel;
-    if (input->move_down) dy += t->vel;
+    if (input->move_right) dx += t->vel.x;
+    if (input->move_left) dx -= t-> vel.x;
+    if (input->move_up) dy -= t->vel.y;
+    if (input->move_down) dy += t->vel.y;
 
-    transform_set(player, t->pos_x, t->pos_y, dx, dy, t->vel);
+    t->dx = dx;
+    t->dy = dy;
+}
+
+void projectile_request_update(EntityID projectile)
+{
+    Transform* t = transform_get(projectile);
+    t->dx = t->vel.x;
+    t->dy = t->vel.y;
 }

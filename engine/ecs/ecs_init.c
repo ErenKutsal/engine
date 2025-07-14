@@ -2,13 +2,13 @@
 // Created by Ahmet Eren Kutsal on 12.07.2025.
 //
 
-#include "ecs_init.h"
-#include "components/component_transform.h"
-#include "components/component_sprite.h"
-#include "components/component_input.h"
-#include "components/component_collider.h"
-#include "components/component_tag.h"
-#include "entity.h"
+#include "../../include/ecs/ecs_init.h"
+#include "../../include/ecs/components/component_transform.h"
+#include "../../include/ecs/components/component_sprite.h"
+#include "../../include/ecs/components/component_input.h"
+#include "../../include/ecs/components/component_collider.h"
+#include "../../include/ecs/components/component_tag.h"
+#include "../../include/ecs/entity.h"
 
 void ecs_init()
 {

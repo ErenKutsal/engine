@@ -2,7 +2,7 @@
 // Created by Ahmet Eren Kutsal on 11.07.2025.
 //
 
-#include "component_sprite.h"
+#include "../../../include/ecs/components/component_sprite.h"
 
 #include "string.h"
 

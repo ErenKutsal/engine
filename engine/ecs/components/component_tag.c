@@ -2,8 +2,8 @@
 // Created by Ahmet Eren Kutsal on 12.07.2025.
 //
 
-#include "component_tag.h"
-#include "../entity.h"
+#include "../../../include/ecs/components/component_tag.h"
+#include "../../../include/ecs/entity.h"
 
 #include <stdint.h>
 #include <string.h>

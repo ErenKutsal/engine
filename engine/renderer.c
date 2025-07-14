@@ -2,7 +2,7 @@
 // Created by Ahmet Eren Kutsal on 9.07.2025.
 //
 
-#include "renderer.h"
+#include "../include/renderer.h"
 
 #include <SDL2/SDL_image.h>
 

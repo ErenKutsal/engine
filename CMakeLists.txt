@@ -25,15 +25,17 @@ set(SOURCES
         engine/ecs/systems/system_render.c
         engine/ecs/ecs_init.c
         engine/ecs/systems/system_collision.c
-        engine/ecs/systems/system_collision.h
+        #include/ecs/systems/system_collision.h
         engine/ecs/components/component_collider.c
-        engine/ecs/components/component_collider.h
+        #include/ecs/components/component_collider.h
         engine/ecs/systems/system_input.c
-        engine/ecs/systems/system_input.h
+        #include/ecs/systems/system_input.h
         engine/ecs/components/component_input.c
-        engine/ecs/components/component_input.h
+        #include/ecs/components/component_input.h
         engine/ecs/components/component_tag.c
-        engine/ecs/components/component_tag.h
+        #include/ecs/components/component_tag.h
+        engine/my_math.c
+        #include/my_math.h
 )
 
 add_executable(game ${SOURCES})
@@ -47,4 +49,5 @@ target_include_directories(game PRIVATE
 target_link_libraries(game
         ${SDL2_LIBRARIES}
         PkgConfig::SDL2_image
+        m
 )

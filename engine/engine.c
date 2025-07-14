@@ -2,10 +2,10 @@
 // Created by Ahmet Eren Kutsal on 9.07.2025.
 //
 
-#include "engine.h"
-#include "renderer.h"
-#include "input.h"
-#include "ecs/ecs_init.h"
+#include "../include/engine.h"
+#include "../include/renderer.h"
+#include "../include/input.h"
+#include "../include/ecs/ecs_init.h"
 
 #include <SDL2/SDL.h>
 #include <stdio.h>

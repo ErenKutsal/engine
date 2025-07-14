@@ -2,7 +2,7 @@
 // Created by Ahmet Eren Kutsal on 12.07.2025.
 //
 
-#include "system_collision.h"
+#include "../../../include/ecs/systems/system_collision.h"
 
 bool aabb_intersect_rect(AABB a, AABB b)
 {

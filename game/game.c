@@ -2,18 +2,20 @@
 // Created by Ahmet Eren Kutsal on 9.07.2025.
 //
 
-#include "../engine/engine.h"
-#include "../engine/renderer.h"
-#include "../engine/ecs/entity.h"
-#include "../engine/ecs/components/component_transform.h"
-#include "../engine/ecs/components/component_sprite.h"
-#include "../engine/ecs/systems/system_movement.h"
-#include "../engine/ecs/systems/system_render.h"
+#include "../include/engine.h"
+#include "../include/renderer.h"
+#include "../include/ecs/entity.h"
+#include "../include/ecs/components/component_transform.h"
+#include "../include/ecs/components/component_sprite.h"
+#include "../include/ecs/systems/system_movement.h"
+#include "../include/ecs/systems/system_render.h"
 
 #include <stdio.h>
 
-#include "../engine/ecs/components/component_collider.h"
-#include "../engine/ecs/components/component_tag.h"
+#include "../include/ecs/components/component_collider.h"
+#include "../include/ecs/components/component_tag.h"
+
+#define FRAME_TARGET_TIME 16
 
 int main(void)
 {
@@ -28,20 +30,24 @@ int main(void)
     tex->width = 64;
     tex->height = 64;
     EntityID player = entity_create();
-    transform_set(player, 100, 100, 0, 0, 100.0f);
+    transform_set(player, 100, 100, 0, 0, 100.0f, 100.0f);
     collider_set(player, 0, 0, 64, 64, false);
     input_enable(player);
     tag_set(player, TAG_PLAYER);
     sprite_add_layer(player, tex, 0, 0, true);
 
     EntityID enemy = entity_create();
-    transform_set(enemy, 500, 100, 0, 0, 100);
+    transform_set(enemy, 500, 100, 0, 0, 100.0f, 100.0f);
     collider_set(enemy, 0, 0, 64, 64, false);
     tag_set(enemy, TAG_ENEMY);
     sprite_add_layer(enemy, tex, 0, 0, true);
 
+    Uint32 frame_start;
+    int frame_time;
     while (engine_running())
     {
+        frame_start = SDL_GetTicks();
+
         engine_handle_input();
         engine_begin_frame();
 
@@ -54,6 +60,11 @@ int main(void)
         movement_update(engine_delta_time());
         system_render_draw_all();
 
+        frame_time = SDL_GetTicks() - frame_start;
+        if (FRAME_TARGET_TIME > frame_time)
+        {
+            SDL_Delay(FRAME_TARGET_TIME - frame_time);
+        }
         //printf("Delta: %f\n", engine_delta_time());
         SDL_Delay(16); // crude ~60fps cap (1000ms / 60 = ~16.6ms)
 

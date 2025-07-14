@@ -2,7 +2,8 @@
 // Created by Ahmet Eren Kutsal on 11.07.2025.
 //
 
-#include "component_transform.h"
+#include "../../../include/ecs/components/component_transform.h"
+#include "../../../include/my_math.h"
 
 #include <string.h>
 
@@ -15,11 +16,11 @@ void transform_init()
     memset(has_transform, 0, sizeof(has_transform));
 }
 
-void transform_set(EntityID id, float pos_x, float pos_y, float dx, float dy, float vel)
+void transform_set(EntityID id, float pos_x, float pos_y, float dx, float dy, float vel_x, float vel_y)
 {
     if (id.index >= MAX_ENTITIES) return;
 
-    transforms[id.index] = (Transform) {pos_x, pos_y, dx, dy, vel};
+    transforms[id.index] = (Transform) {pos_x, pos_y, dx, dy, vec2f(vel_x, vel_y)};
     has_transform[id.index] = true;
 }
 

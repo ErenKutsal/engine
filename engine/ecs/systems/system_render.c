@@ -2,12 +2,12 @@
 // Created by Ahmet Eren Kutsal on 12.07.2025.
 //
 
-#include "../components/component_sprite.h"
-#include "../components/component_transform.h"
-#include "../entity.h"
-#include "../../engine.h"
-#include "../../renderer.h"
-#include "../components/component_collider.h"
+#include "../../../include/ecs/components/component_sprite.h"
+#include "../../../include/ecs/components/component_transform.h"
+#include "../../../include/ecs/entity.h"
+#include "../../../include/engine.h"
+#include "../../../include/renderer.h"
+#include "../../../include/ecs/components/component_collider.h"
 
 void system_render_draw_all()
 {

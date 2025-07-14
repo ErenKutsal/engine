@@ -2,7 +2,7 @@
 // Created by Ahmet Eren Kutsal on 10.07.2025.
 //
 
-#include "entity.h"
+#include "../../include/ecs/entity.h"
 
 #include <stdint.h>
 #include <string.h>

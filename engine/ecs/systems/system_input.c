@@ -2,9 +2,9 @@
 // Created by Ahmet Eren Kutsal on 12.07.2025.
 //
 
-#include "system_input.h"
-#include "../entity.h"
-#include "../components/component_input.h"
+#include "../../../include/ecs/systems/system_input.h"
+#include "../../../include/ecs/entity.h"
+#include "../../../include/ecs/components/component_input.h"
 
 void system_input_update(const Uint8* keyboard_state)
 {
