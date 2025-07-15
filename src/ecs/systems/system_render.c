@@ -8,6 +8,7 @@
 #include "../../../include/engine.h"
 #include "../../../include/renderer.h"
 #include "../../../include/ecs/components/component_collider.h"
+#include "../../../include/camera.h"
 
 void system_render_draw_all()
 {
@@ -16,9 +17,11 @@ void system_render_draw_all()
         EntityID id = {i, entity_get_generation(i)};
         if (!entity_is_alive(id)) continue;
 
+        Camera cam = camera_get();
+
         Transform* t = transform_get(id);
-        int x = (int) t->pos_x ? : 0;
-        int y = (int) t->pos_y ? : 0;
+        int x = (int) (t->pos_x - cam.x) ? : 0;
+        int y = (int) (t->pos_y - cam.y) ? : 0;
         int dx = (int) t->dx ? : 0;
         int dy = (int) t->dy ? : 0;
 

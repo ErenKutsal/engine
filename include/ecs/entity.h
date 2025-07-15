@@ -8,6 +8,7 @@
 #include <stdint.h>
 
 #define MAX_ENTITIES 1024
+#define ENTITY_NONE (EntityID) {UINT32_MAX, UINT32_MAX}
 
 typedef struct
 {

@@ -17,7 +17,7 @@
 
 void movement_update(const float delta_time)
 {
-    for (int i = 0; i < MAX_ENTITIES; i++)
+    for (int i = 0; i < MAX_ENTITIES - 1; i++)
     {
         EntityID id1 = (EntityID) {i, entity_get_generation(i)};
         if (!transform_has(id1) || !entity_is_alive(id1) || !collider_has(id1))
@@ -35,12 +35,12 @@ void movement_update(const float delta_time)
                        t1->pos_y + c1->offset_y + t1->dy * delta_time,
                        c1->width,
                        c1->height};
-        for (int j = 0; j < MAX_ENTITIES; j++)
+        for (int j = i + 1; j < MAX_ENTITIES; j++)
         {
             if (i == j) continue;
 
             EntityID id2 = (EntityID) {j, entity_get_generation(j)};
-            if (!collider_has(id2) || !transform_has(id2) || !entity_is_alive(id2))
+            if (!entity_is_alive(id2) || !collider_has(id2) || !transform_has(id2) || !entity_is_alive(id2))
             {
                 continue;
             }
@@ -56,13 +56,13 @@ void movement_update(const float delta_time)
             if (aabb_intersect_rect(aabb1x, aabb2))
             {
                 //entity will collide if it moves horizontally
-                collide_entities(id1, id2);
+                collide_entities(id1, id2, DIRECTION_HORIZONTAL);
                 //printf("hit!\n");
                 //t1->dx = 0;
             }
             if (aabb_intersect_rect(aabb1y, aabb2))
             {
-                collide_entities(id1, id2);
+                collide_entities(id1, id2, DIRECTION_VERTICAL);
                 //printf("hit!\n");
                 //t1->dy = 0;
             }

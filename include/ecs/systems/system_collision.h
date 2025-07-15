@@ -9,11 +9,27 @@
 #include "../entity.h"
 #include "../components/component_tag.h"
 
+typedef enum
+{
+    DIRECTION_VERTICAL = 1 << 0,
+    DIRECTION_HORIZONTAL = 1 << 1
+} CollisionDirection;
+
+typedef struct
+{
+    uint8_t direction;
+} Direction;
+
 typedef struct
 {
     float x, y, w, h;
 } AABB;
 
 bool aabb_intersect_rect(AABB a, AABB b);
-void collide_entities(EntityID id1, EntityID id2);
+void collide_entities(EntityID id1, EntityID id2, uint8_t direction);
+
+//private helper functions
+static void on_projectile_hit(EntityID id);
+static void resolve_entity_collision(EntityID id1, EntityID id2, uint8_t direction);
+
 #endif //SYSTEM_COLLISION_H

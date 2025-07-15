@@ -33,6 +33,8 @@ set(SOURCES
         src/key_binding.c
         include/key_binding.h
         game/player.c
+        include/camera.h
+        src/camera.c
 )
 
 add_executable(game ${SOURCES})

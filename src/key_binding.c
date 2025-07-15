@@ -5,8 +5,8 @@
 #include "../include/key_binding.h"
 
 static KeyBinding bindings[MAX_BINDINGS];
+static bool on_hold[MAX_BINDINGS];
 static int binding_count;
-//static bool is_holding;
 
 void key_binding_init()
 {
@@ -34,12 +34,12 @@ void binding_update(const Uint8* keyboard_state)
         KeyBinding binding = bindings[i];
         if (keyboard_state[binding.key])
         {
-            //if (is_holding) continue;
+            if (on_hold[i]) continue;
             binding.callback(binding.id);
-            //is_holding = true;
+            on_hold[i] = true;
         } else
         {
-            //is_holding = false;
+            on_hold[i] = false;
         }
     }
 }

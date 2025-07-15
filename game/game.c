@@ -15,6 +15,8 @@
 #include "../include/key_binding.h"
 #include "../include/ecs/components/component_collider.h"
 #include "../include/ecs/components/component_tag.h"
+#include "../include/camera.h"
+
 #include "player.h"
 
 #define FRAME_TARGET_TIME 16
@@ -46,8 +48,12 @@ int main(void)
 
     bind_key(SDL_SCANCODE_SPACE, player_attack, "attack", player);
 
+    camera_init(800, 600);
+    camera_set_target(player);
+
     Uint32 frame_start;
     int frame_time;
+
     while (engine_running())
     {
         frame_start = SDL_GetTicks();
@@ -62,6 +68,7 @@ int main(void)
         }
         */
         movement_update(engine_delta_time());
+        camera_update(engine_delta_time());
         system_render_draw_all();
 
         frame_time = SDL_GetTicks() - frame_start;

@@ -59,3 +59,7 @@ void tag_clear(EntityID id)
     tags[id.index].flags = 0;
     has_tag[id.index] = false;
 }
+
+bool is_player(EntityID id)     { return tag_has(id, TAG_PLAYER); }
+bool is_enemy(EntityID id)      { return tag_has(id, TAG_ENEMY); }
+bool is_projectile(EntityID id) { return tag_has(id, TAG_PROJECTILE); }

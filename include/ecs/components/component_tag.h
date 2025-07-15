@@ -31,4 +31,10 @@ bool tag_has(EntityID id, uint32_t flag);
 Tag* tag_get(EntityID id);
 void tag_clear(EntityID id);
 
+//helper functions
+bool is_player(EntityID id);
+bool is_enemy(EntityID id);
+bool is_projectile(EntityID id);
+
+
 #endif //COMPONENT_TAG_H

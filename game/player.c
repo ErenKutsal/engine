@@ -24,8 +24,8 @@ void player_attack(EntityID player)
     float player_y = player_transform->pos_y;
 
     EntityID projectile = entity_create();
-    transform_set(projectile, player_x + 64, player_y, 0, 0, 100.0f, 0);
-    collider_set(projectile, 0, 0, 32, 16, true);
+    transform_set(projectile, player_x + 64, player_y, 0, 0, 300.0f, 0);
+    collider_set(projectile, 0, 0, 32, 16, false);
     tag_set(projectile, TAG_PROJECTILE);
     sprite_add_layer(projectile, tex, 0, 0, true);
 }

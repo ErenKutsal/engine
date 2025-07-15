@@ -6,6 +6,7 @@
 #include "../include/renderer.h"
 #include "../include/input.h"
 #include "../include/ecs/ecs_init.h"
+#include "../include/camera.h"
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
