@@ -16,6 +16,7 @@
 #include "../include/ecs/components/component_collider.h"
 #include "../include/ecs/components/component_tag.h"
 #include "../include/camera.h"
+#include "../include/map/map_parser.h"
 
 #include "player.h"
 
@@ -31,18 +32,18 @@ int main(void)
         engine_shutdown();
         return 1;
     }
-    tex->width = 64;
-    tex->height = 64;
+    tex->width = 32;
+    tex->height = 32;
     EntityID player = entity_create();
     transform_set(player, 100, 100, 0, 0, 100.0f, 100.0f);
-    collider_set(player, 0, 0, 64, 64, false);
+    collider_set(player, 0, 0, 32, 32, false);
     input_enable(player);
     tag_set(player, TAG_PLAYER);
     sprite_add_layer(player, tex, 0, 0, true);
 
     EntityID enemy = entity_create();
     transform_set(enemy, 500, 100, 0, 0, 100.0f, 100.0f);
-    collider_set(enemy, 0, 0, 64, 64, false);
+    collider_set(enemy, 0, 0, 32, 32, false);
     tag_set(enemy, TAG_ENEMY);
     sprite_add_layer(enemy, tex, 0, 0, true);
 
@@ -50,6 +51,8 @@ int main(void)
 
     camera_init(800, 600);
     camera_set_target(player);
+
+    Map* map = parse_map("assets/maps/map1.map");
 
     Uint32 frame_start;
     int frame_time;
@@ -69,7 +72,7 @@ int main(void)
         */
         movement_update(engine_delta_time());
         camera_update(engine_delta_time());
-        system_render_draw_all();
+        system_render_draw_all(map);
 
         frame_time = SDL_GetTicks() - frame_start;
         if (FRAME_TARGET_TIME > frame_time)

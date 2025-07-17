@@ -35,6 +35,12 @@ set(SOURCES
         game/player.c
         include/camera.h
         src/camera.c
+        src/map/map_parser.c
+        src/map/map_loader.c
+        src/map/map.c
+        include/map/map.h
+        include/map/map_loader.h
+        include/map/map_parser.h
 )
 
 add_executable(game ${SOURCES})
