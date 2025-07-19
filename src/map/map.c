@@ -7,6 +7,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static Map* current_map = NULL;
+
+void map_set(Map* map)
+{
+    current_map = map;
+}
+
+Map* map_get()
+{
+    return current_map;
+}
+
 Map* map_create(int width, int height, Tileset* tileset) {
     Map* map = malloc(sizeof(Map));
     if (!map) return NULL;

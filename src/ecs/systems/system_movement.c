@@ -27,12 +27,13 @@ void movement_update(const float delta_time)
         predict_update(id1);
         Transform* t1 = transform_get(id1);
         Collider* c1 = collider_get(id1);
-        AABB aabb1x = {t1->pos_x + c1->offset_x + t1->dx * delta_time,
+        resolve_entity_tile_collision(id1, map_get());
+        AABB aabb1x = {t1->pos_x + c1->offset_x + t1->dx * 2 *delta_time,
                        t1->pos_y + c1->offset_y,
                        c1->width,
                        c1->height};
         AABB aabb1y = {t1->pos_x + c1->offset_x,
-                       t1->pos_y + c1->offset_y + t1->dy * delta_time,
+                       t1->pos_y + c1->offset_y + t1->dy * 2 * delta_time,
                        c1->width,
                        c1->height};
         for (int j = i + 1; j < MAX_ENTITIES; j++)
@@ -96,10 +97,12 @@ void player_request_update(EntityID player, Input* input)
     Transform* t = transform_get(player);
     float dx = 0;
     float dy = 0;
-    if (input->move_right) dx += t->vel.x;
-    if (input->move_left) dx -= t-> vel.x;
-    if (input->move_up) dy -= t->vel.y;
-    if (input->move_down) dy += t->vel.y;
+    if (input->move_right) dx = t->vel.x;
+    if (input->move_left) dx = -t-> vel.x;
+    if (input->move_up) dy = -t->vel.y;
+    if (input->move_down) dy = t->vel.y;
+
+    //printf("%f %f\n",t->vel.x, dx);
 
     t->dx = dx;
     t->dy = dy;

@@ -63,6 +63,7 @@ void system_render_draw_map(Map* map, Camera cam, SDL_Renderer* renderer)
                 y * map->tileset->tile_size - cam.y,
                 map->tileset->tile_size,
                 map->tileset->tile_size};
+            SDL_SetTextureAlphaMod(tex->texture, 128); // 50% transparent
             SDL_RenderCopy(renderer, tex->texture, &src_rect, &dest_rect);
         }
     }

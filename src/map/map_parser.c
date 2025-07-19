@@ -83,6 +83,10 @@ Map* parse_map(char* filename)
                 int x = token_count - 1;
                 int y = line_count - 11;
                 Tile tile = (Tile) {atoi(token), tile_size, true};
+                if (atoi(token) == 3 || atoi(token) == 2)
+                {
+                    tile.is_passable = false;
+                }
                 map_set_tile(map, tile, x, y);
                 printf("tile set. x: %d, y: %d, index: %d\n", x, y, atoi(token));
             }

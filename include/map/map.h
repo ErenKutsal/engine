@@ -35,6 +35,8 @@ Map* map_create(int width, int height, Tileset* tileset);
 void map_free(Map* map);
 void map_set_tile(Map* map, Tile tile, int x, int y);
 Tile* map_get_tile(Map* m, int x, int y);
+void map_set(Map* map);
+Map* map_get();
 
 
 #endif //MAP_H

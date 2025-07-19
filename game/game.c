@@ -53,6 +53,7 @@ int main(void)
     camera_set_target(player);
 
     Map* map = parse_map("assets/maps/map1.map");
+    map_set(map);
 
     Uint32 frame_start;
     int frame_time;

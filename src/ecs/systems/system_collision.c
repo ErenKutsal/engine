@@ -3,14 +3,18 @@
 //
 
 #include "../../../include/ecs/systems/system_collision.h"
+
+#include "../../../include/camera.h"
+#include "../../../include/engine.h"
+#include "../../../include/ecs/components/component_collider.h"
 #include "../../../include/ecs/components/component_transform.h"
 
 bool aabb_intersect_rect(AABB a, AABB b)
 {
-    return !(a.y + a.h <= b.y ||
-             a.x + a.w <= b.x ||
-             b.y + b.h <= a.y ||
-             b.x + b.w <= a.x);
+    return !(a.y + a.h < b.y ||
+             a.x + a.w < b.x ||
+             b.y + b.h < a.y ||
+             b.x + b.w < a.x);
 }
 
 void collide_entities(EntityID id1, EntityID id2, uint8_t direction)
@@ -49,5 +53,66 @@ static void resolve_entity_collision(EntityID id1, EntityID id2, uint8_t directi
     {
         transform_get(id1)->dy = 0;
         transform_get(id2)->dy = 0;
+    }
+}
+
+void resolve_entity_tile_collision(EntityID id, Map* map)
+{
+    float delta_time = engine_delta_time();
+    if (!transform_has(id) || !collider_has(id)) return;
+    int tile_size = map->tiles->size;
+    Transform* t = transform_get(id);
+    Collider* c = collider_get(id);
+    int tile_x_start = (int)floorf((t->pos_x + c->offset_x) / tile_size) - 1;
+    int tile_y_start = (int)floorf((t->pos_y + c->offset_y) / tile_size) - 1;
+    int tile_x_end = (int)floorf((t->pos_x + c->offset_x + c->width) / tile_size) + 1;
+    int tile_y_end = (int)floorf((t->pos_y + c->offset_y + c->height) / tile_size) + 1;
+
+    AABB aabbx = {t->pos_x + c->offset_x + t->dx * 2 * delta_time,
+                       t->pos_y + c->offset_y,
+                       c->width,
+                       c->height};
+    AABB aabby = {t->pos_x + c->offset_x,
+                   t->pos_y + c->offset_y + t->dy * 2 * delta_time,
+                   c->width,
+                   c->height};
+    for (int i = tile_x_start; i <= tile_x_end; i++)
+    {
+        for (int j = tile_y_start; j <= tile_y_end; j++)
+        {
+            Tile* tile = map_get_tile(map, i, j);
+            AABB tile_aabb = {
+                .x = i * tile_size,
+                .y = j * tile_size,
+                .w = tile_size,
+                .h = tile_size
+                };
+            Camera cam = camera_get();
+            SDL_Rect rect = {t->pos_x + c->offset_x + t->dx * 5 * delta_time - cam.x,
+                       t->pos_y + c->offset_y - cam.y,
+                       c->width,
+                       c->height};
+
+            // Set draw color (e.g., green)
+            SDL_SetRenderDrawColor(engine_renderer(), 0, 255, 0, 255);
+
+            // Draw rectangle outline for debug
+            SDL_RenderDrawRect(engine_renderer(), &rect);
+            if (aabb_intersect_rect(aabbx, tile_aabb))
+            {
+                if (!tile->is_passable)
+                {
+                    t->dx = 0;
+                }
+            }
+            if (aabb_intersect_rect(aabby, tile_aabb))
+            {
+                if (!tile->is_passable)
+                {
+                    t->dy = 0;
+                }
+            }
+
+        }
     }
 }
