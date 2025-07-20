@@ -56,6 +56,81 @@ static void resolve_entity_collision(EntityID id1, EntityID id2, uint8_t directi
     }
 }
 
+CollisionInfo check_entity_tile_collision(EntityID id, Map* map, float delta_time)
+{
+    if (!transform_has(id) || !collider_has(id)) return INVALID_COLLISION;;
+
+    int tile_size = map->tiles->size;
+    Transform* t = transform_get(id);
+    Collider* c = collider_get(id);
+    int tile_x_start = (int)floorf((t->pos_x + c->offset_x) / (float)tile_size) - 1;
+    int tile_y_start = (int)floorf((t->pos_y + c->offset_y) / (float)tile_size) - 1;
+    int tile_x_end = (int)floorf((t->pos_x + c->offset_x + c->width) / (float)tile_size) + 1;
+    int tile_y_end = (int)floorf((t->pos_y + c->offset_y + c->height) / (float)tile_size) + 1;
+
+    AABB aabbx = {
+        t->pos_x + c->offset_x + t->dx * 2 * delta_time,
+        t->pos_y + c->offset_y,
+        c->width,
+        c->height
+        };
+    AABB aabby = {
+        t->pos_x + c->offset_x,
+        t->pos_y + c->offset_y + t->dy * 2 * delta_time,
+        c->width,
+        c->height
+        };
+    bool collided = false;
+    bool collided_horizontally = false;
+    bool collided_vertically = false;
+    for (int i = tile_x_start; i <= tile_x_end; i++)
+    {
+        for (int j = tile_y_start; j <= tile_y_end; j++)
+        {
+            const Tile* tile = map_get_tile(map, i, j);
+            const AABB tile_aabb = {
+                .x = (float)i * (float)tile_size,
+                .y = (float)j * (float)tile_size,
+                .w = (float)tile_size,
+                .h = (float)tile_size
+                };
+            if (aabb_intersect_rect(aabbx, tile_aabb))
+            {
+                if (!tile->is_passable)
+                {
+                    collided = true;
+                    collided_horizontally = true;
+                }
+            }
+            if (aabb_intersect_rect(aabby, tile_aabb))
+            {
+                if (!tile->is_passable)
+                {
+                    collided = true;
+                    collided_vertically = true;
+                }
+            }
+        }
+    }
+    if (collided)
+    {
+        if (collided_horizontally & !collided_vertically)
+        {
+            return (CollisionInfo) {collided, DIRECTION_HORIZONTAL};
+        }
+        if (collided_vertically & !collided_horizontally)
+        {
+            return (CollisionInfo) {collided, DIRECTION_VERTICAL};
+        }
+        if (collided_horizontally & collided_vertically)
+        {
+            return (CollisionInfo) {collided, DIRECTION_VERTICAL | DIRECTION_HORIZONTAL};
+        }
+    }
+    return INVALID_COLLISION;
+}
+
+// unused
 void resolve_entity_tile_collision(EntityID id, Map* map)
 {
     float delta_time = engine_delta_time();
@@ -116,3 +191,4 @@ void resolve_entity_tile_collision(EntityID id, Map* map)
         }
     }
 }
+
