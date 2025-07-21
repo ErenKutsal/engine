@@ -1,5 +1,5 @@
 [tileset]
-image = zartzurt.png
+image = assets/tilesets/zartzurt.png
 width = 4
 height = 2
 tile_size = 32
