@@ -41,6 +41,7 @@ set(SOURCES
         include/map/map.h
         include/map/map_loader.h
         include/map/map_parser.h
+        src/ecs/components/component_script.c
 )
 
 add_executable(game ${SOURCES})

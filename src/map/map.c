@@ -26,7 +26,7 @@ Map* map_create(int width, int height, Tileset* tileset) {
     map->width = width;
     map->height = height;
     map->tileset = tileset;
-    map->tiles = malloc(sizeof(Tile) * width * height);
+    map->tile_attributes = malloc(sizeof(TileAttribute));
     if (!map->tiles) {
         free(map);
         return NULL;

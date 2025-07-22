@@ -8,6 +8,7 @@
 #include "../../include/ecs/components/component_input.h"
 #include "../../include/ecs/components/component_collider.h"
 #include "../../include/ecs/components/component_tag.h"
+#include "../../include/ecs/components/component_script.h"
 #include "../../include/ecs/entity.h"
 
 void ecs_init()
@@ -18,6 +19,7 @@ void ecs_init()
     input_init();
     collider_init();
     tag_init();
+    script_init();
 }
 void ecs_shutdown()
 {

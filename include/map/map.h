@@ -9,26 +9,40 @@
 #include <stdbool.h>
 #include "../renderer.h"
 
-typedef struct
-{
-    int index;
-    int size;
-    bool is_passable;
-} Tile;
+#define FILENAME_MAX 128
+#define TILE_ATTRIBUTES_MAX 64
+#define ENTITY_DATAS_MAX 64
 
 typedef struct
 {
-    char* filename;
+    int index;
+    bool is_passable;
+} TileAttribute;
+
+typedef struct {
+    char type[32];
+    int x, y;
+} EntityData;
+
+typedef struct
+{
+    char filename[FILENAME_MAX];
     Texture* texture;
     int cols, rows;
-    int tile_size;
 } Tileset;
 
 typedef struct
 {
-    Tile* tiles;
-    int width, height;
+    TileAttribute* tile_attributes;
+    int tile_attr_count;
+
+    EntityData* entity_datas;
+    int entity_data_count;
+
+    int map_width, map_height;
+    int tile_width, tile_height;
     Tileset* tileset;
+    int* map_data;
 } Map;
 
 Map* map_create(int width, int height, Tileset* tileset);

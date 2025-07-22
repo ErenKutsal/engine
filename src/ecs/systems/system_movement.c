@@ -14,6 +14,7 @@
 #include "../../../include/ecs/components/component_tag.h"
 #include "../../../include/ecs/components/component_collider.h"
 #include "../../../include/my_math.h"
+#include "../../../include/ecs/components/component_script.h"
 
 void movement_update(const float delta_time)
 {
@@ -74,11 +75,25 @@ void movement_update(const float delta_time)
                           c2->height};
             if (aabb_intersect_rect(aabb1x, aabb2))
             {
-                collide_entities(id1, id2, DIRECTION_HORIZONTAL); //changes entities' transforms
+                if (script_get(id1).on_collision)
+                {
+                    script_get(id1).on_collision(id1, id2, DIRECTION_HORIZONTAL);
+                }
+                else
+                {
+                    collide_entities(id1, id2, DIRECTION_HORIZONTAL); //changes entities' transforms
+                }
             }
             if (aabb_intersect_rect(aabb1y, aabb2))
             {
-                collide_entities(id1, id2, DIRECTION_VERTICAL); //changes entities' transforms
+                if (script_get(id1).on_collision)
+                {
+                    script_get(id1).on_collision(id1, id2, DIRECTION_HORIZONTAL);
+                }
+                else
+                {
+                    collide_entities(id1, id2, DIRECTION_HORIZONTAL); //changes entities' transforms
+                }
             }
         }
         const Vec2f velocity = vec2f(t1->dx, t1->dy);

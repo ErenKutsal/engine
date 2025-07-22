@@ -10,6 +10,169 @@
 
 #include "../../include/renderer.h"
 
+
+bool starts_with(const char* str, const char* prefix)
+{
+    return strncmp(str, prefix, strlen(prefix)) == 0;
+}
+void trim_newline(char* str)
+{
+    char* nl = strchr(str, '\n');
+    if (nl) *nl = '\0';
+}
+
+int parse_map(const char* filename, Map* map)
+{
+    FILE* f = fopen(filename, "r");
+}
+
+static void parse_map_data(FILE* f, Map* map)
+{
+    int size = map->map_width * map->map_height;
+    map->map_data = malloc(sizeof(int) * size);
+    int count = 0;
+
+    char line[4096];
+    while (fgets(line, sizeof(line), f))
+    {
+        trim_newline(line);
+        if (strchr(line, ']')) break;
+
+        char* token = strtok(line, ",");
+        while (token && count < size)
+        {
+            map->map_data[count++] = extract_int(token, "");
+            token = strtok(NULL, ",");
+        }
+    }
+}
+
+static void parse_tile_attributes(FILE* f, Map* map)
+{
+    map->tile_attributes = malloc(sizeof(TileAttribute) * TILE_ATTRIBUTES_MAX);
+    map->tile_attr_count = 0;
+
+    char line[LINE_MAX_SIZE];
+    while (fgets(line, sizeof(line), f))
+    {
+        trim_newline(line);
+        if (strchr(line, ']')) break;
+        if (strchr(line, '{'))
+        {
+            TileAttribute attr = {0};
+            attr.is_passable = true;
+            while (fgets(line, sizeof(line), f))
+            {
+                if (strchr(line, '}')) break;
+                if (starts_with(line, "index"))
+                {
+                    attr.index = extract_int(line, "index =");
+                }
+                else if (starts_with(line, "passable"))
+                {
+                    attr.is_passable = extract_bool(line, "passable =");
+                }
+            }
+        map->tile_attributes[map->tile_attr_count++] = attr;
+        }
+    }
+}
+
+static void parse_entities(FILE* f, Map* map)
+{
+    map->entity_datas = malloc(sizeof(EntityData) * ENTITY_DATAS_MAX);
+    map->entity_data_count = 0;
+
+    char line[LINE_MAX_SIZE];
+    while (fgets(line, sizeof(line), f))
+    {
+        trim_newline(line);
+        if (strchr(line, ']')) break;
+        if (strchr(line, '{'))
+        {
+            EntityData edata = {0};
+            while (fgets(line, sizeof(line), f))
+            {
+                if (strchr(line, '}')) break;
+
+                if (starts_with(line, "type"))
+                {
+                    extract_str(line, "type =", edata.type, 32);
+                }
+                else if (starts_with(line, "x"))
+                {
+                    edata.x = extract_int(line, "x =");
+                }
+                else if (starts_with(line, "y"))
+                {
+                    edata.y = extract_int(line, "y =");
+                }
+            }
+            map->entity_datas[map->entity_data_count++] = edata;
+        }
+    }
+}
+
+static int extract_int(const char* line, const char* prefix)
+{
+    char* pos = strstr(line, prefix);
+    if (!pos) return -1;
+
+    pos += strlen(prefix);
+    while (isspace((unsigned char) *pos)) pos++;
+
+    char* endptr;
+    const long value = strtol(pos, &endptr, 10);
+    if (pos == endptr)
+    {
+        printf("Error extracting index\n");
+        return -1;
+    }
+
+    return (int) value;
+}
+
+static bool extract_bool(const char* line, const char* prefix)
+{
+    char* pos = strstr(line, prefix);
+    if (!pos) return -1;
+
+    pos += strlen(prefix);
+    while (isspace((unsigned char) *pos)) pos++;
+
+    if (strncmp(pos, "true", 4) == 0)
+    {
+        return true;
+    }
+    if (strncmp(pos, "false", 5) == 0)
+    {
+        return false;
+    }
+    return true;
+}
+
+static void extract_str(const char* line, const char* prefix, char* out, int max_len)
+{
+    char* pos = strstr(line, prefix);
+    if (!pos) return;
+
+    pos += strlen(prefix);
+    while (isspace((unsigned char) *pos)) pos++;
+
+    size_t i = 0;
+    while (*pos && !isspace((unsigned char) *pos) && i < max_len - 1)
+    {
+        out[i++] = *pos++;
+    }
+
+    out[i] = '\0';
+}
+
+
+
+
+
+/*
 Map* parse_map(char* filename)
 {
     FILE* file = fopen(filename, "r");
@@ -98,5 +261,7 @@ Map* parse_map(char* filename)
     fclose(file);
     return map;
 }
+*/
+
 
 

@@ -34,12 +34,17 @@ int main(void)
     }
     tex->width = 32;
     tex->height = 32;
+    /*
+    tex->width = 32;
+    tex->height = 32;
     EntityID player = entity_create();
     transform_set(player, 100, 100, 0, 0, 100.0f, 100.0f);
     collider_set(player, 0, 0, 32, 32, false);
     input_enable(player);
     tag_set(player, TAG_PLAYER);
     sprite_add_layer(player, tex, 0, 0, true);
+    */
+    EntityID player = player_create();
 
     EntityID enemy = entity_create();
     transform_set(enemy, 500, 100, 0, 0, 100.0f, 100.0f);

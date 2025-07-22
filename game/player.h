@@ -6,7 +6,10 @@
 #define PLAYER_H
 
 #include "../include/ecs/entity.h"
+#include "../include/ecs/systems/system_collision.h"
 
+EntityID player_create();
 void player_attack(EntityID player);
+void on_collision(EntityID self, EntityID other, CollisionDirection direction);
 
 #endif //PLAYER_H
