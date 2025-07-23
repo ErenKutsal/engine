@@ -84,6 +84,10 @@ CollisionInfo check_entity_tile_collision(EntityID id, Map* map, float delta_tim
     bool collided = false;
     bool collided_horizontally = false;
     bool collided_vertically = false;
+    if (tile_x_start < 0 || tile_x_start > map->map_width || tile_y_start < 0 || tile_y_start > map->map_height)
+    {
+        return INVALID_COLLISION;
+    }
     for (int i = tile_x_start; i <= tile_x_end; i++)
     {
         for (int j = tile_y_start; j <= tile_y_end; j++)

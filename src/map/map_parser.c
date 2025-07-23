@@ -66,7 +66,7 @@ static void parse_tileset_data(FILE* f, Map* map)
         if (starts_with(line, "tileset_path"))
         {
             extract_str(line, "tileset_path =", map->tileset->filename, 64);
-             map->tileset->texture = renderer_load_texture(map->tileset->filename);
+            map->tileset->texture = renderer_load_texture(map->tileset->filename);
         }
         else if (starts_with(line, "columns"))
         {
