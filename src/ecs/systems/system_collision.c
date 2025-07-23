@@ -60,13 +60,14 @@ CollisionInfo check_entity_tile_collision(EntityID id, Map* map, float delta_tim
 {
     if (!transform_has(id) || !collider_has(id)) return INVALID_COLLISION;;
 
-    int tile_size = map->tiles->size;
+    int tile_width = map->tile_width;
+    int tile_height = map->tile_height;
     Transform* t = transform_get(id);
     Collider* c = collider_get(id);
-    int tile_x_start = (int)floorf((t->pos_x + c->offset_x) / (float)tile_size) - 1;
-    int tile_y_start = (int)floorf((t->pos_y + c->offset_y) / (float)tile_size) - 1;
-    int tile_x_end = (int)floorf((t->pos_x + c->offset_x + c->width) / (float)tile_size) + 1;
-    int tile_y_end = (int)floorf((t->pos_y + c->offset_y + c->height) / (float)tile_size) + 1;
+    int tile_x_start = (int)floorf((t->pos_x + c->offset_x) / (float)tile_width) - 1;
+    int tile_y_start = (int)floorf((t->pos_y + c->offset_y) / (float)tile_height) - 1;
+    int tile_x_end = (int)floorf((t->pos_x + c->offset_x + c->width) / (float)tile_width) + 1;
+    int tile_y_end = (int)floorf((t->pos_y + c->offset_y + c->height) / (float)tile_height) + 1;
 
     AABB aabbx = {
         t->pos_x + c->offset_x + t->dx * 2 * delta_time,
@@ -87,16 +88,16 @@ CollisionInfo check_entity_tile_collision(EntityID id, Map* map, float delta_tim
     {
         for (int j = tile_y_start; j <= tile_y_end; j++)
         {
-            const Tile* tile = map_get_tile(map, i, j);
+            const TileAttribute tile = map_get_tile(map, i, j);
             const AABB tile_aabb = {
-                .x = (float)i * (float)tile_size,
-                .y = (float)j * (float)tile_size,
-                .w = (float)tile_size,
-                .h = (float)tile_size
+                .x = (float)i * (float)tile_width,
+                .y = (float)j * (float)tile_height,
+                .w = (float)tile_width,
+                .h = (float)tile_height
                 };
             if (aabb_intersect_rect(aabbx, tile_aabb))
             {
-                if (!tile->is_passable)
+                if (!tile.is_passable)
                 {
                     collided = true;
                     collided_horizontally = true;
@@ -104,7 +105,7 @@ CollisionInfo check_entity_tile_collision(EntityID id, Map* map, float delta_tim
             }
             if (aabb_intersect_rect(aabby, tile_aabb))
             {
-                if (!tile->is_passable)
+                if (!tile.is_passable)
                 {
                     collided = true;
                     collided_vertically = true;
@@ -130,6 +131,7 @@ CollisionInfo check_entity_tile_collision(EntityID id, Map* map, float delta_tim
     return INVALID_COLLISION;
 }
 
+/*
 // unused
 void resolve_entity_tile_collision(EntityID id, Map* map)
 {
@@ -191,4 +193,4 @@ void resolve_entity_tile_collision(EntityID id, Map* map)
         }
     }
 }
-
+*/

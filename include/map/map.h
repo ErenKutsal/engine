@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include "../renderer.h"
 
-#define FILENAME_MAX 128
+#define MYFILENAME_MAX 128
 #define TILE_ATTRIBUTES_MAX 64
 #define ENTITY_DATAS_MAX 64
 
@@ -26,7 +26,7 @@ typedef struct {
 
 typedef struct
 {
-    char filename[FILENAME_MAX];
+    char filename[MYFILENAME_MAX];
     Texture* texture;
     int cols, rows;
 } Tileset;
@@ -45,10 +45,10 @@ typedef struct
     int* map_data;
 } Map;
 
-Map* map_create(int width, int height, Tileset* tileset);
+//Map* map_create(int width, int height, Tileset* tileset);
 void map_free(Map* map);
-void map_set_tile(Map* map, Tile tile, int x, int y);
-Tile* map_get_tile(Map* m, int x, int y);
+void map_set_tile(Map* map, TileAttribute tile, int x, int y);
+TileAttribute map_get_tile(Map* m, int x, int y);
 void map_set(Map* map);
 Map* map_get();
 

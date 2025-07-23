@@ -18,7 +18,7 @@ Map* map_get()
 {
     return current_map;
 }
-
+/*
 Map* map_create(int width, int height, Tileset* tileset) {
     Map* map = malloc(sizeof(Map));
     if (!map) return NULL;
@@ -34,26 +34,34 @@ Map* map_create(int width, int height, Tileset* tileset) {
 
     return map;
 }
-
+*/
 
 void map_free(Map* map)
 {
     if (!map) return;
 
-    free(map->tiles);
-    map->tiles = NULL;
+    free(map->tile_attributes);
+    free(map->entity_datas);
+    free(map->map_data);
+    if (map->tileset)
+    {
+        SDL_DestroyTexture(map->tileset->texture->texture);
+        free(map->tileset->texture);
+        free(map->tileset);
+    }
+    map->tile_attributes = NULL;
+    map->entity_datas = NULL;
+    map->map_data = NULL;
+    map->tileset = NULL;
 }
 
-void map_set_tile(Map* m, Tile tile, int x, int y)
+void map_set_tile(Map* map, TileAttribute tile, int x, int y)
 {
-    m->tiles[y * m->width + x] = tile;
+    map->map_data[y * map->map_width + x] = tile.index;
 }
 
-/*
- * (0,0) (0,1)
- * (1,0) (1,1)
- */
-Tile* map_get_tile(Map* m, int x, int y)
+TileAttribute map_get_tile(Map* map, int x, int y)
 {
-    return &m->tiles[y * m->width + x];
+    int index = map->map_data[y * map->map_width + x];
+    return map->tile_attributes[index];
 }

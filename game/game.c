@@ -57,8 +57,10 @@ int main(void)
     camera_init(800, 600);
     camera_set_target(player);
 
-    Map* map = parse_map("assets/maps/map1.map");
-    map_set(map);
+    Map map;
+    memset(&map, 0, sizeof(Map)); // zero-initialize
+    parse_map("assets/maps/map2.map", &map);
+    map_set(&map);
 
     Uint32 frame_start;
     int frame_time;
@@ -78,7 +80,7 @@ int main(void)
         */
         movement_update(engine_delta_time());
         camera_update(engine_delta_time());
-        system_render_draw_all(map);
+        system_render_draw_all(&map);
 
         frame_time = SDL_GetTicks() - frame_start;
         if (FRAME_TARGET_TIME > frame_time)

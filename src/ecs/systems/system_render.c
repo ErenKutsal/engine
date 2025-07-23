@@ -50,19 +50,21 @@ void system_render_draw_all(Map* map)
 void system_render_draw_map(Map* map, Camera cam, SDL_Renderer* renderer)
 {
     Texture* tex = map->tileset->texture;
-    for (int y = 0; y < map->height; y++) {
-        for (int x = 0; x < map->width; x++) {
-            Tile tile = map->tiles[y * map->width + x];
+    for (int y = 0; y < map->map_height; y++) {
+        for (int x = 0; x < map->map_width; x++) {
+            int tile_index = map->map_data[y * map->map_width + x];
+            int tile_width = map->tile_width;
+            int tile_height = map->tile_height;
             SDL_Rect src_rect = (SDL_Rect) {
-                .x = (tile.index % map->tileset->cols) * tile.size,
-                .y = (tile.index / map->tileset->cols) * tile.size,
-                .w = map->tileset->tile_size,
-                .h = map->tileset->tile_size};
+                .x = (tile_index % map->tileset->cols) * tile_width,
+                .y = (tile_index / map->tileset->cols) * tile_height,
+                .w = tile_width,
+                .h = tile_height};
             SDL_Rect dest_rect = {
-                x * map->tileset->tile_size - cam.x,
-                y * map->tileset->tile_size - cam.y,
-                map->tileset->tile_size,
-                map->tileset->tile_size};
+                x * tile_width - cam.x,
+                y * tile_height - cam.y,
+                tile_width,
+                tile_height};
             SDL_SetTextureAlphaMod(tex->texture, 128); // 50% transparent
             SDL_RenderCopy(renderer, tex->texture, &src_rect, &dest_rect);
         }

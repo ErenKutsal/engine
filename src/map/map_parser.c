@@ -3,13 +3,11 @@
 //
 
 #include "../../include/map/map_parser.h"
+#include "../../include/renderer.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "../../include/renderer.h"
-
 
 bool starts_with(const char* str, const char* prefix)
 {
@@ -24,6 +22,92 @@ void trim_newline(char* str)
 int parse_map(const char* filename, Map* map)
 {
     FILE* f = fopen(filename, "r");
+    if (!f) {
+        perror("Failed to open map file");
+        return 0;
+    }
+
+    char line[128];
+    while (fgets(line, sizeof(line), f))
+    {
+        trim_newline(line);
+        if (starts_with(line, "tileset"))
+        {
+            parse_tileset_data(f, map);
+        }
+        else if (starts_with(line, "map"))
+        {
+            parse_map_attr(f, map);
+        }
+        else if (starts_with(line, "tile_attributes"))
+        {
+            parse_tile_attributes(f, map);
+        }
+        else if (starts_with(line, "entities"))
+        {
+            parse_entities(f, map);
+        }
+    }
+
+    fclose(f);
+    return 1;
+}
+
+static void parse_tileset_data(FILE* f, Map* map)
+{
+    map->tileset = malloc(sizeof(Tileset));
+
+    char line[LINE_MAX_SIZE];
+    while (fgets(line, sizeof(line), f))
+    {
+        trim_newline(line);
+        if (strchr(line, ']')) break;
+
+        if (starts_with(line, "tileset_path"))
+        {
+            extract_str(line, "tileset_path =", map->tileset->filename, 64);
+             map->tileset->texture = renderer_load_texture(map->tileset->filename);
+        }
+        else if (starts_with(line, "columns"))
+        {
+            map->tileset->cols = extract_int(line, "columns =");
+        }
+        else if (starts_with(line, "rows"))
+        {
+            map->tileset->rows = extract_int(line, "rows =");
+        }
+    }
+}
+
+static void parse_map_attr(FILE* f, Map* map)
+{
+    char line[LINE_MAX_SIZE];
+    while (fgets(line, sizeof(line), f))
+    {
+        trim_newline(line);
+        if (strchr(line, ']')) break;
+
+        if (starts_with(line, "tile_width"))
+        {
+            map->tile_width = extract_int(line, "tile_width =");
+        }
+        else if (starts_with(line, "tile_height"))
+        {
+            map->tile_height = extract_int(line, "tile_height =");
+        }
+        else if (starts_with(line, "map_width"))
+        {
+            map->map_width = extract_int(line, "map_width =");
+        }
+        else if (starts_with(line, "map_height"))
+        {
+            map->map_height = extract_int(line, "map_height =");
+        }
+        else if (starts_with(line, "map_data"))
+        {
+            parse_map_data(f, map);
+        }
+    }
 }
 
 static void parse_map_data(FILE* f, Map* map)
@@ -36,7 +120,7 @@ static void parse_map_data(FILE* f, Map* map)
     while (fgets(line, sizeof(line), f))
     {
         trim_newline(line);
-        if (strchr(line, ']')) break;
+        if (strchr(line, '}')) break;
 
         char* token = strtok(line, ",");
         while (token && count < size)
@@ -135,7 +219,7 @@ static int extract_int(const char* line, const char* prefix)
 static bool extract_bool(const char* line, const char* prefix)
 {
     char* pos = strstr(line, prefix);
-    if (!pos) return -1;
+    if (!pos) return false;
 
     pos += strlen(prefix);
     while (isspace((unsigned char) *pos)) pos++;
