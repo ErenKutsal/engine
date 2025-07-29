@@ -1,0 +1,1 @@
+handle tile_get when x and y are invalid

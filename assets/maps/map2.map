@@ -1,7 +1,7 @@
 tileset = [
-tileset_path = assets/tileset.png
-columns = 4
-rows = 2
+tileset_path = assets/zartpurt.png
+columns = 3
+rows = 3
 ]
 
 map = [
@@ -16,13 +16,41 @@ map_data = {
 
 tile_attributes = [
 {
+index = 0, 
+passable = true 
+},
+{
 index = 1, 
-passable = false 
+passable = true 
 },
 {
 index = 2, 
+passable = false 
+},
+{
+index = 3, 
+passable = false 
+},
+{
+index = 4, 
 passable = true 
-}
+},
+{
+index = 5, 
+passable = true 
+},
+{
+index = 6, 
+passable = true 
+},
+{
+index = 7, 
+passable = true 
+},
+{
+index = 8, 
+passable = true 
+},
 ]
 
 entities = [

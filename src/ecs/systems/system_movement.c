@@ -88,11 +88,11 @@ void movement_update(const float delta_time)
             {
                 if (script_get(id1).on_collision)
                 {
-                    script_get(id1).on_collision(id1, id2, DIRECTION_HORIZONTAL);
+                    script_get(id1).on_collision(id1, id2, DIRECTION_VERTICAL);
                 }
                 else
                 {
-                    collide_entities(id1, id2, DIRECTION_HORIZONTAL); //changes entities' transforms
+                    collide_entities(id1, id2, DIRECTION_VERTICAL); //changes entities' transforms
                 }
             }
         }
