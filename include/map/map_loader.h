@@ -7,7 +7,7 @@
 
 #include "map.h"
 
-Map load_map(char* filename);
+int load_map(Map* map);
 void unload_map(Map* map);
 
 #endif //MAP_LOADER_H

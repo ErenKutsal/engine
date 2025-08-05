@@ -1,1 +1,4 @@
-handle tile_get when x and y are invalid
+handle tile_get when x and y are invalid. DONE.
+load map. ON_CONSTRUCTION.
+add more info (transform, speed ...) for entities in .map files.
+Change entity type from char[] to enum in EntityData (map.h).

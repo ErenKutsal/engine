@@ -19,6 +19,7 @@
 #include "../include/map/map_parser.h"
 
 #include "player.h"
+#include "../include/map/map_loader.h"
 
 #define FRAME_TARGET_TIME 16
 
@@ -60,6 +61,7 @@ int main(void)
     Map map;
     memset(&map, 0, sizeof(Map)); // zero-initialize
     parse_map("assets/maps/map2.map", &map);
+    load_map(&map);
     map_set(&map);
 
     Uint32 frame_start;

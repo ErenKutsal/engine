@@ -58,7 +58,7 @@ static void resolve_entity_collision(EntityID id1, EntityID id2, uint8_t directi
 
 CollisionInfo check_entity_tile_collision(EntityID id, Map* map, float delta_time)
 {
-    if (!transform_has(id) || !collider_has(id)) return INVALID_COLLISION;;
+    if (!transform_has(id) || !collider_has(id)) return COLLISION_INVALID;;
 
     int tile_width = map->tile_width;
     int tile_height = map->tile_height;
@@ -84,9 +84,11 @@ CollisionInfo check_entity_tile_collision(EntityID id, Map* map, float delta_tim
     bool collided = false;
     bool collided_horizontally = false;
     bool collided_vertically = false;
+
+    //Justin Case
     if (tile_x_start < 0 || tile_x_start > map->map_width || tile_y_start < 0 || tile_y_start > map->map_height)
     {
-        return INVALID_COLLISION;
+        return COLLISION_INVALID;
     }
     for (int i = tile_x_start; i <= tile_x_end; i++)
     {
@@ -132,7 +134,7 @@ CollisionInfo check_entity_tile_collision(EntityID id, Map* map, float delta_tim
             return (CollisionInfo) {collided, DIRECTION_VERTICAL | DIRECTION_HORIZONTAL};
         }
     }
-    return INVALID_COLLISION;
+    return COLLISION_INVALID;
 }
 
 /*

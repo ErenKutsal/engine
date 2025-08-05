@@ -15,7 +15,9 @@ bool starts_with(const char* str, const char* prefix)
 }
 void trim_newline(char* str)
 {
-    char* nl = strchr(str, '\n');
+    if (!str) return;
+
+    char* nl = strchr(str, '\r\n');
     if (nl) *nl = '\0';
 }
 
@@ -66,7 +68,7 @@ static void parse_tileset_data(FILE* f, Map* map)
         if (starts_with(line, "tileset_path"))
         {
             extract_str(line, "tileset_path =", map->tileset->filename, 64);
-            map->tileset->texture = renderer_load_texture(map->tileset->filename);
+            //map->tileset->texture = renderer_load_texture(map->tileset->filename);
         }
         else if (starts_with(line, "columns"))
         {
@@ -177,6 +179,7 @@ static void parse_entities(FILE* f, Map* map)
             EntityData edata = {0};
             while (fgets(line, sizeof(line), f))
             {
+                trim_newline(line);
                 if (strchr(line, '}')) break;
 
                 if (starts_with(line, "type"))

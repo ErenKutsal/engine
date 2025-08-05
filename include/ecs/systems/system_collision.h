@@ -28,7 +28,7 @@ typedef struct
     uint8_t direction;
 } CollisionInfo;
 
-#define INVALID_COLLISION (CollisionInfo) {false, DIRECTION_NONE}
+#define COLLISION_INVALID (CollisionInfo) {false, DIRECTION_NONE}
 
 typedef struct
 {

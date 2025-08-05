@@ -57,11 +57,17 @@ void map_free(Map* map)
 
 void map_set_tile(Map* map, TileAttribute tile, int x, int y)
 {
+    if (!current_map) return;
+    if (x < 0 || x >= current_map->tile_width || y < 0 || y >= current_map->tile_height) return;
+
     map->map_data[y * map->map_width + x] = tile.index;
 }
 
 TileAttribute map_get_tile(Map* map, int x, int y)
 {
+    if (!current_map) return TILE_INVALID;
+    if (x < 0 || x >= current_map->tile_width || y < 0 || y >= current_map->tile_height) return TILE_INVALID;
+
     int index = map->map_data[y * map->map_width + x];
     return map->tile_attributes[index];
 }

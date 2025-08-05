@@ -19,6 +19,8 @@ typedef struct
     bool is_passable;
 } TileAttribute;
 
+#define TILE_INVALID (TileAttribute) {.index = -1, .is_passable = true}
+
 typedef struct {
     char type[32];
     int x, y;
