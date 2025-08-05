@@ -17,7 +17,7 @@ void trim_newline(char* str)
 {
     if (!str) return;
 
-    char* nl = strchr(str, '\r\n');
+    char* nl = strpbrk(str, "\r\n");
     if (nl) *nl = '\0';
 }
 

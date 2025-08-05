@@ -26,8 +26,6 @@ int load_map(Map* map)
             (float) (data.y * map->tile_height),
             0, 0,
             0, 0);
-        printf("%f\n", (float) (data.x));
-        printf("%f\n", (float) (data.y));
         //temporary
         Texture* tex = renderer_load_texture("assets/player.png");
         if (!tex) {
